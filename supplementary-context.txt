@@ -1,0 +1,127 @@
+
+
+=== Joseph Snell · Insights & Analytics ===
+Senior Business Insights Analyst
+Insights, ideas,and everything between.
+I'm a Senior Business Insights Analyst working in indirect procurement — specifically maintenance, repair and operations (MRO). I work across a wide range of stakeholders to turn complex, fragmented data into insights that drive real decisions. My current focus is inventory optimisation.
+This isn't just a portfolio. It's a place where I think out loud — documenting my learning journey, sharing code and ideas, and occasionally writing about whatever's caught my attention. Not all of it will be work-related. I shoot clay pigeons, I read broadly, and I find myself drawn to ideas from well outside my industry. You might see that here too.
+Current Role
+Sr. Business Insights Analyst
+Domain
+MRO · Inventory Optimisation
+Core Stack
+Python · SQL · Power BI
+Right Now
+Learning in public · Building this
+What I've built
+Featured Projects
+Python · Inventory · Demo
+MRO Inventory Optimisation Engine
+Safety stock, reorder points, EOQ, ABC/XYZ classification and walk-forward validation across 24 months of goods issue and receiving data. Power BI visualisation layer in progress.
+Pythonscikit-learnPower BI
+📄 Full write-up ↗
+⌥ Repo ↗
+Coming Soon
+Project in Progress
+Currently being prepared for publication. Check back soon.
+All projects
+View full archive →
+What I work with
+Skills
+🐍
+Python
+My comfort spot. ETL development across fragmented data sources, API ingestion, task automation, and statistical modelling.
+🗄️
+SQL
+Relational databases, querying and extraction for downstream analytics. Complex joins, views, and schema design.
+📊
+Power BI
+Data modelling with snowflake schemas designed around DAX efficiency. DAX measure development, report visualisation, and custom HTML visuals where native visuals fall short.
+☁️
+Azure DevOps & Git
+Version control for scripts and analytical pipelines. Branch management and automated triggers on PR completion across a multi-system environment.
+Currently exploring
+On the Horizon
+Deepening
+🤖
+Machine Learning
+A natural extension of existing statistical modelling — demand forecasting, anomaly detection, and ML applications in inventory optimisation.
+📦
+Application Packaging & Django
+Building on existing Python and PySide6 experience — packaging analytical tools and exploring web application development with Django.
+Expanding
+☁️
+Cloud Platforms
+Moving beyond on-premise infrastructure — exploring Azure and cloud-native data tooling as a next step.
+🗃️
+Non-Relational Databases
+Expanding beyond relational databases into document and columnar stores — broadening how data is structured and queried.
+How I got here
+Learning Journey
+Start
+Excel & the Limits of What Was Given
+Began with curated tables — using Excel to analyse vendor query trends, progressing from VLOOKUPs through to XLOOKUPs and Power Query. Hit a ceiling when the data I needed simply wasn't in what I was handed. That's when SQL entered the picture.
+SQL
+Learning the Data Structure
+Started with simple SELECT statements to pull what Excel couldn't reach. Quickly led to joins, composite keys, and time spent understanding entity relationship diagrams. Exposure to stored procedures and views followed — building out the reporting layer from the database up.
+Visualisation
+Visualising Data
+Migrated from SSRS to Power BI — a technical and cultural shift. SSRS had bred a habit of emailed tabular reports; Power BI required stakeholder buy-in for self-serve analytics and a move toward visual storytelling. Self-taught DAX, researched schema design, and built the new reporting layer from scratch.
+Python
+Python
+Started out of curiosity watching a colleague work through a course. Quickly realised it unlocked insights that SQL alone couldn't reach. It's grown from there into the core of how I work with data.
+Now
+Building in Public
+Documenting projects, methodology, and learning here. The goal is to sharpen thinking, build a visible track record, and contribute back to the analytics community.
+Get in touch
+Let's talk.
+Happy to connect about data, MRO, Python, or anything analytics-adjacent. Always open to a good conversation.
+github.com/Josephsnell95 ↗
+linkedin.com/in/joseph-snell-a197828b ↗
+x.com/JosephSamuel95 ↗------------------------------------------------------------
+
+=== Projects · Joseph Snell ===
+What I've built
+Projects
+A full record of projects — analytical tools, data pipelines, and anything else worth documenting. Work ranges from production-grade to experimental.
+Python · Inventory · Demo
+MRO Inventory Optimisation Engine
+Safety stock, reorder points, EOQ, ABC/XYZ classification and walk-forward validation across 24 months of goods issue and receiving data. Power BI visualisation layer in progress.
+Pythonscikit-learnPower BI
+📄 Full write-up ↗
+⌥ Repo ↗
+Coming Soon
+Project in Progress
+Currently being prepared for publication. Check back soon.
+Coming Soon
+Project in Progress
+Currently being prepared for publication. Check back soon.------------------------------------------------------------
+
+=== Inventory Optimisation · Joseph Snell ===
+[The problem]
+Why inventory optimisation matters in MRO
+In maintenance, repair and operations environments, inventory decisions are rarely straightforward. Parts vary wildly in demand frequency, unit cost, and criticality. Overstocking ties up working capital; understocking risks operational downtime. Most organisations manage this with rules of thumb rather than data.
+This project applies statistical and machine learning methods to answer a simple question more rigorously: how much of each item should we hold, and when should we reorder?
+
+[What it produces]
+Optimisation metrics
+For each stock item, the engine calculates the following across 24 months of goods issue and receiving data, weighted by unit cost:
+Items: Safety Stock, Reorder Point, EOQ, ABC Classification, XYZ Classification, Walk-Forward Validation
+
+[Technical walkthrough]
+How it works
+The pipeline follows a structured flow from raw transactional data through to actionable recommendations. Jupyter notebooks are provided for each stage, designed to be readable as standalone documents as well as executable code.
+In this demo, goods issue and receiving records are generated synthetically using a random number generator — stand-ins for the transactional data that would be pulled from an ERP in production. Pandas handles all intermediate transformation — aggregation, cleaning, and feature engineering. Scikit-learn provides the statistical modelling layer for demand forecasting and classification. Matplotlib is used throughout the notebooks for visual diagnostics.
+
+[Visualisation layer]
+Power BI dashboard
+The analytical outputs feed into a Power BI dashboard designed for client-facing delivery — aggregating holding cost reduction opportunities, the volume of actionable stock changes, and forecast confidence metrics. The intent is to give operational and procurement stakeholders a clear picture of what to act on and in what order.
+Power BI dashboard embed — coming once published to Power BI Service
+
+[Stack]
+Technologies used
+Items: Python, pandas, scikit-learn, matplotlib, Power BI
+
+[What's next]
+Roadmap
+Items: Core statistical models, Power BI visualisation layer, nbviewer notebook embeds, Criticality weighting

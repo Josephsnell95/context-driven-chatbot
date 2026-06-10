@@ -1,0 +1,7 @@
+repos:
+  - name: YourProjectNameHere
+    path: /path/to/your/local/repo
+    github_repo_url: https://github.com/yourusername/your-repo
+    github_private: false  # true if this is a private GitHub repo
+    portfolio_url: https://yoursite.github.io/projects/your-project
+    extract: [notebooks]

@@ -5,10 +5,12 @@ a clean supplementary context file for use in the chatbot system prompt.
 """
 
 import os
+import yaml
 from pathlib import Path
 from dotenv import load_dotenv
 
 from html_extractor import parse_file
+from notebook_extractor import extract_notebook
 
 # ── Configuration ────────────────────────────────────────────────────────────
 

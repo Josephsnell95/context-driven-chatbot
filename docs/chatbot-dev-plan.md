@@ -2,8 +2,8 @@
 ### josephsnell95.github.io — Embedded Portfolio Assistant
 
 **Author:** Joseph Snell  
-**Version:** 0.3 — Active Development  
-**Status:** Parser complete; Worker complete; Widget in progress  
+**Version:** 0.4 — Active Development  
+**Status:** Parser complete; Worker deployed; Widget in progress  
 **Last Updated:** June 2026
 
 ---
@@ -151,7 +151,8 @@ context-driven-chatbot/
 │   ├── html_extractor.py          # HTML → clean text
 │   └── requirements.txt           # beautifulsoup4, python-dotenv
 ├── worker/
-│   └── index.js                   # Cloudflare Worker: Workers AI → Groq → graceful fail
+│   ├── index.js                   # Cloudflare Worker: Workers AI → Groq → graceful fail
+│   └── wrangler.toml              # Cloudflare project config — Worker name, entry point, AI binding
 ├── widget/
 │   └── chatbot.html               # Embeddable chat widget (drop into any site)
 ├── .github/
@@ -186,7 +187,11 @@ A Cloudflare Worker that:
 5. If both fail, returns the graceful failure message
 6. Otherwise returns the AI response to the browser as JSON
 
-**Status: Complete ✅**
+**Deployment:** Managed via Wrangler CLI. `wrangler.toml` in `worker/` declares the Worker name, entry point, and Workers AI binding. The Groq API key is stored as a Wrangler secret — never committed to the repo.
+
+**Live URL:** `https://bear-necessities-worker.josephsnell.workers.dev`
+
+**Status: Complete and deployed ✅**
 
 ### 7.4 The Chat Widget (widget/chatbot.html)
 
@@ -214,8 +219,10 @@ The widget tracks conversation history in the browser's memory during a session.
 - [x] Create Cloudflare account
 - [x] Build `worker/index.js` — Workers AI → Groq → graceful failure
 - [x] CORS handling for cross-origin requests from GitHub Pages
-- [ ] Deploy Worker to Cloudflare with API keys as environment secrets
-- [ ] Test end-to-end with a real API call
+- [x] Add `wrangler.toml` with Workers AI binding declaration
+- [x] Add Groq API key as Wrangler secret
+- [x] Deploy Worker to Cloudflare
+- [x] Test end-to-end with a real API call — response confirmed
 
 ### Phase 3 — Widget (current)
 - [ ] Build `widget/chatbot.html` — floating chat UI

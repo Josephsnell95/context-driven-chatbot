@@ -225,9 +225,9 @@ The widget tracks conversation history in the browser's memory during a session.
 - [x] Test end-to-end with a real API call — response confirmed
 
 ### Phase 3 — Widget (current)
-- [ ] Build `widget/chatbot.html` — floating chat UI
-- [ ] Implement consent notice (session memory, no cookies)
-- [ ] Style to match portfolio site
+- [x] Build `widget/chatbot.html` — floating chat UI
+- [x] Implement consent notice (session memory, no cookies)
+- [x] Style to match portfolio site
 - [ ] Test on mobile
 
 ### Phase 4 — Embed & Test

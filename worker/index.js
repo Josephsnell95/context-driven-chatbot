@@ -543,8 +543,10 @@ export default {
         let response;
         try {
             response = await env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", {
-                system: systemPrompt,
-                messages: messages
+                messages: [
+                { role: "system", content: systemPrompt },
+                ...messages
+                ]
             })
             reply = response.response;
         } catch (error) {

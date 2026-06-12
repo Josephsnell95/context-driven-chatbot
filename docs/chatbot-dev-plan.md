@@ -2,8 +2,8 @@
 ### josephsnell95.github.io — Embedded Portfolio Assistant
 
 **Author:** Joseph Snell  
-**Version:** 0.4 — Active Development  
-**Status:** Parser complete; Worker deployed; Widget in progress  
+**Version:** 0.5 — Active Development  
+**Status:** Parser complete; Worker deployed; Widget complete and embedded  
 **Last Updated:** June 2026
 
 ---
@@ -154,7 +154,8 @@ context-driven-chatbot/
 │   ├── index.js                   # Cloudflare Worker: Workers AI → Groq → graceful fail
 │   └── wrangler.toml              # Cloudflare project config — Worker name, entry point, AI binding
 ├── widget/
-│   └── chatbot.html               # Embeddable chat widget (drop into any site)
+│   ├── chatbot.html               # Widget HTML and CSS — embeddable structure and styling
+│   └── chatbot.js                 # Widget JavaScript — interaction, session state, Worker communication
 ├── .github/
 │   └── workflows/
 │       ├── validate-context.yml   # CI: validation gate on chatbot repo PRs
@@ -193,17 +194,27 @@ A Cloudflare Worker that:
 
 **Status: Complete and deployed ✅**
 
-### 7.4 The Chat Widget (widget/chatbot.html)
+### 7.4 The Chat Widget (widget/chatbot.html + widget/chatbot.js)
 
-A floating button in the corner of your page that opens a chat panel when clicked. Built in plain HTML, CSS, and JavaScript — no frameworks needed. Designed to be dropped into any static site with a single `<script>` tag.
+The widget is split into two files:
 
-**Key parts:** toggle button, message history panel, text input and send button, loading indicator, close/minimise button, consent notice (session memory only).
+**`chatbot.html`** — contains the HTML structure and scoped CSS. Includes the toggle button, chat panel, consent notice, message history container, loading indicator, and input row. The `<style>` block is self-contained so it does not conflict with the portfolio site's stylesheet when injected.
 
-**Status: Not started**
+**`chatbot.js`** — contains all JavaScript. Handles panel open/close, consent acknowledgement, message rendering, Worker communication, error handling, and session state persistence.
+
+**Embed approach:** both files live in `assets/html/` and `assets/js/` respectively in the GitHub Pages repo. `main.js` fetches `chatbot.html` via `insertAdjacentHTML` and then appends `chatbot.js` as a dynamically created script tag. This ensures the script executes after the HTML is in the DOM, and means the widget is injected on every page without duplicating code.
+
+**Session state:** panel open/closed state, consent acknowledgement, and full message history are all persisted to `sessionStorage`. This means the widget survives page navigations within a tab — the panel stays open, the conversation history is restored, and the user does not see the consent notice again. Everything clears when the tab is closed.
+
+**Error handling:** the fetch to the Worker is wrapped in try/catch/finally. If the request fails for any reason, a friendly error message is rendered in the chat and the input is re-enabled via the `finally` block.
+
+**Status: Complete and embedded ✅**
 
 ### 7.5 Conversation State
 
-The widget tracks conversation history in the browser's memory during a session. Each new message appends to the history, which is sent to the Worker each time. When the page is closed, history resets — no database needed.
+Conversation history is persisted to `sessionStorage` as a JSON array. Each new message is appended to the array and saved immediately. On page load, the saved array is restored and all messages are re-rendered into the history panel. When the tab closes, `sessionStorage` is cleared — no database needed, no persistent storage.
+
+**Future consideration:** a CI/CD Action on the pages repo could automatically pull the latest `chatbot.html` and `chatbot.js` from the chatbot repo whenever the widget changes, removing the current manual copy step. This follows the same cross-repo pattern as the parser trigger (Section 9.1).
 
 ---
 
@@ -224,21 +235,27 @@ The widget tracks conversation history in the browser's memory during a session.
 - [x] Deploy Worker to Cloudflare
 - [x] Test end-to-end with a real API call — response confirmed
 
-### Phase 3 — Widget (current)
-- [x] Build `widget/chatbot.html` — floating chat UI
+### Phase 3 — Widget ✅
+- [x] Build `widget/chatbot.html` — floating chat UI with consent notice
 - [x] Implement consent notice (session memory, no cookies)
 - [x] Style to match portfolio site
-- [ ] Test on mobile
+- [x] Refactor: split JavaScript into `widget/chatbot.js`
+- [x] Add session state persistence (panel state, message history)
+- [x] Add error handling (try/catch/finally around Worker fetch)
+- [ ] Test on mobile *(deferred — minor responsive issues noted, to be addressed)*
 
-### Phase 4 — Embed & Test
-- [ ] Add widget to GitHub Pages `index.html`
-- [ ] Test against success criteria (Section 13)
+### Phase 4 — Embed & Test (current)
+- [x] Embed widget in GitHub Pages via `main.js` injection pattern
+- [x] Widget persists across page navigations
+- [ ] Test against success criteria (Section 14)
 - [ ] Deploy privacy policy page
+- [ ] Add footer link to privacy policy on Pages site
 
 ### Phase 5 — CI/CD Pipeline
 - [ ] Set up GitHub Action on pages repo: trigger parser on push/merge
 - [ ] Configure cross-repo PR: parser output auto-raises PR on chatbot repo
 - [ ] Set up GitHub Action on chatbot repo: validate context on PR
+- [ ] Consider: Action to sync widget files from chatbot repo to pages repo on release
 - [ ] Test full end-to-end pipeline
 
 ---
@@ -258,6 +275,12 @@ CI/CD stands for *Continuous Integration / Continuous Deployment*. GitHub provid
 **Trigger:** any pull request opened against the chatbot repo  
 **Action:** runs a validation script against context files  
 **Result:** PR blocked from merging if validation fails
+
+### 9.3 Widget Sync (future)
+
+**Trigger:** a release or merge to main on the chatbot repo affecting `widget/`  
+**Action:** copies `chatbot.html` and `chatbot.js` to the pages repo and raises a PR  
+**Result:** widget updates propagate to the live site without a manual copy step
 
 ---
 
@@ -290,7 +313,7 @@ Lead with business impact, then method, then link. The achievement first, the te
 
 A privacy policy is required. Bear Necessities has a genuinely light data footprint:
 - No database, no logging, no cookies
-- Conversation lives only in the visitor's browser memory
+- Conversation lives only in the visitor's browser's `sessionStorage` — cleared when the tab closes
 - No personal data collected or stored by Joe
 
 **Files:**
@@ -309,6 +332,7 @@ A privacy policy is required. Bear Necessities has a genuinely light data footpr
 | Bot goes off-topic | System prompt constraints; tested against edge cases before go-live |
 | Free tier terms change | Architecture is portable — swapping provider means ~5 lines in the Worker |
 | GDPR non-compliance | Cloudflare Workers AI keeps data within one provider; privacy policy and consent notice in place |
+| Widget out of sync with chatbot repo | Manual copy step currently; future CI/CD widget sync Action planned (Section 9.3) |
 
 ---
 

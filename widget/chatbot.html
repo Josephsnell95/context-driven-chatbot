@@ -1,329 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Bear Necessities</title>
+    <style>
+        #chat-toggle {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: #3a6343;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 0.65rem 1.25rem;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.76rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        #chat-panel {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 360px;
+            height: 500px;
+            background: white;
+            border: 1px solid #c8c4bc;
+            border-radius: 4px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #chat-panel>div:first-child {
+            background: #3a6343;
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        #chat-panel>div:first-child span {
+            font-family: 'Jost', sans-serif;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-weight: 500;
+            font-size: 0.76rem;
+            color: white;
+        }
+
+        #chat-panel>div:first-child button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        #consent-notice {
+            background: #eef3ee;
+            border-bottom: 1px solid #c4d5c5;
+            padding: 1rem 1.25rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        #consent-notice p {
+            font-size: 0.78rem;
+            color: #3a6343;
+            line-height: 1.65;
+            margin-bottom: 0.75rem;
+            align-self: stretch;
+        }
+
+        #consent-btn {
+            background: #3a6343;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 0.5rem 1rem;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.73rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        #message-history {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .msg-user {
+            align-self: flex-end;
+            background: #eef3ee;
+            border: 1px solid #c4d5c5;
+            border-radius: 3px;
+            padding: 0.5rem 0.85rem;
+            font-size: 0.83rem;
+            max-width: 80%;
+        }
+
+        .msg-bear {
+            align-self: flex-start;
+            background: #f5f2ed;
+            border: 1px solid #c8c4bc;
+            border-radius: 3px;
+            padding: 0.5rem 0.85rem;
+            font-size: 0.83rem;
+            max-width: 80%;
+        }
+
+        .msg-wrapper-user {
+            align-self: flex-end;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .msg-wrapper-bear {
+            align-self: flex-start;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .msg-label {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #7a7870;
+            margin-bottom: 0.2rem;
+        }
+
+        #chat-panel>div:last-child {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.85rem 1.25rem;
+            border-top: 1px solid #c8c4bc;
+            flex-shrink: 0;
+        }
+
+        #chat-input {
+            flex: 1;
+            border: 1px solid #c8c4bc;
+            border-radius: 3px;
+            padding: 0.5rem 0.75rem;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.83rem;
+            background: #f5f2ed;
+            color: #1c1c1a;
+            outline: none;
+        }
+
+        #chat-input:focus {
+            border-color: #3a6343;
+        }
+
+        #send-btn {
+            background: #3a6343;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 0.5rem 1rem;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.73rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        #send-btn:hover {
+            background: #2d4e35;
+        }
+
+        #loading {
+            padding: 0 1.25rem 0.5rem;
+            font-size: 0.75rem;
+            color: #7a7870;
+            font-style: italic;
+            flex-shrink: 0;
+        }
+    </style>
 </head>
+
 <body>
-<style>
-    #chat-toggle {
-    position: fixed;     
-    bottom: 1.5rem;    
-    right: 1.5rem;      
-    background: #3a6343; 
-    color: white;
-    border: none;
-    border-radius: 3px;
-    padding: 0.65rem 1.25rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.76rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-}
 
-#chat-panel {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 360px;
-    height: 500px;
-    background: white;
-    border: 1px solid #c8c4bc;
-    border-radius: 4px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-#chat-panel > div:first-child {
-    background: #3a6343;
-    padding: 0.85rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-#chat-panel > div:first-child span {
-    font-family: 'Jost', sans-serif;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 0.76rem;
-    color: white;
-}
-
-#chat-panel > div:first-child button {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-}
-#consent-notice {
-    background: #eef3ee;
-    border-bottom: 1px solid #c4d5c5;
-    padding: 1rem 1.25rem;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-#consent-notice p {
-    font-size: 0.78rem;
-    color: #3a6343;
-    line-height: 1.65;
-    margin-bottom: 0.75rem;
-    align-self: stretch;
-}
-
-#consent-btn {
-    background: #3a6343;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    padding: 0.5rem 1rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.73rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-#message-history {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.msg-user {
-    align-self: flex-end;
-    background: #eef3ee;
-    border: 1px solid #c4d5c5;
-    border-radius: 3px;
-    padding: 0.5rem 0.85rem;
-    font-size: 0.83rem;
-    max-width: 80%;
-}
-
-.msg-bear {
-    align-self: flex-start;
-    background: #f5f2ed;
-    border: 1px solid #c8c4bc;
-    border-radius: 3px;
-    padding: 0.5rem 0.85rem;
-    font-size: 0.83rem;
-    max-width: 80%;
-}
-
-.msg-wrapper-user { 
-    align-self: flex-end; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: flex-end; 
-}
-
-.msg-wrapper-bear { 
-    align-self: flex-start; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: flex-start; 
-}
-
-.msg-label { 
-    font-size: 0.68rem; 
-    font-weight: 500; 
-    letter-spacing: 0.08em; 
-    text-transform: uppercase; 
-    color: #7a7870; 
-    margin-bottom: 0.2rem; 
-}
-
-#chat-panel > div:last-child {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.85rem 1.25rem;
-    border-top: 1px solid #c8c4bc;
-    flex-shrink: 0;
-}
-
-#chat-input {
-    flex: 1;
-    border: 1px solid #c8c4bc;
-    border-radius: 3px;
-    padding: 0.5rem 0.75rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.83rem;
-    background: #f5f2ed;
-    color: #1c1c1a;
-    outline: none;
-}
-
-#chat-input:focus {
-    border-color: #3a6343;
-}
-
-#send-btn {
-    background: #3a6343;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    padding: 0.5rem 1rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.73rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-#send-btn:hover {
-    background: #2d4e35;
-}
-
-#loading {
-    padding: 0 1.25rem 0.5rem;
-    font-size: 0.75rem;
-    color: #7a7870;
-    font-style: italic;
-    flex-shrink: 0;
-}
-</style>
-
-<button id="chat-toggle">Chat with Bear</button>
+    <button id="chat-toggle">Chat with Bear</button>
 
 
-<div id="chat-panel" style="display:none">
-    <div>
-        <span>Bear Necessities</span>
-        <button id="close-btn">&#x2715;</button>
+    <div id="chat-panel" style="display:none">
+        <div>
+            <span>Bear Necessities</span>
+            <button id="close-btn">&#x2715;</button>
+        </div>
+        <div id="consent-notice">
+            <p>By chatting with Bear Necessities you agree to our <a
+                    href="https://josephsnell95.github.io/privacy-policy" target="_blank">Privacy Policy</a>. Messages
+                are processed by Cloudflare AI. We don't store your conversations.</p>
+            <button id="consent-btn">Got It</button>
+        </div>
+        <div id="message-history"></div>
+        <div id="loading" style="display:none">Bear is thinking...</div>
+        <div>
+            <input type="text" id="chat-input" disabled>
+            <button id="send-btn">Send</button>
+        </div>
     </div>
-    <div id="consent-notice">
-        <p>By chatting with Bear Necessities you agree to our <a href="https://josephsnell95.github.io/privacy-policy" target="_blank">Privacy Policy</a>. Messages are processed by Cloudflare AI. We don't store your conversations.</p>
-        <button id="consent-btn">Got It</button>
-    </div>
-    <div id="message-history"></div>
-    <div id="loading" style="display:none">Bear is thinking...</div>
-    <div>
-        <input type="text" id="chat-input" disabled>
-        <button id="send-btn">Send</button>
-    </div>
-</div>
-
-
-<script>
-    const WORKER_URL = 'https://bear-necessities-worker.josephsnell.workers.dev';
-    let messages = [];
-
-    const chatToggle = document.getElementById('chat-toggle');
-    const closeBtn = document.getElementById('close-btn');
-    const chatPanel = document.getElementById('chat-panel');
-    const consentBtn = document.getElementById('consent-btn');
-    const sendBtn = document.getElementById('send-btn');
-    const consentNtc = document.getElementById('consent-notice');
-    const messageHst = document.getElementById('message-history');
-    const chatInput = document.getElementById('chat-input');
-    const loading = document.getElementById('loading');
-
-    function togglePanel() {
-        if (chatPanel.style.display === 'none') {
-            chatPanel.style.display = 'flex';
-            chatToggle.style.display = 'none';
-        } else {
-            chatPanel.style.display = 'none';
-            chatToggle.style.display = 'flex';
-        }
-    }
-
-    chatToggle.addEventListener('click', togglePanel);
-
-    function closeChat() {
-        chatPanel.style.display = 'none';
-        chatToggle.style.display = 'flex';
-    }
-
-    closeBtn.addEventListener('click', closeChat)
-
-    function consentHandler() {
-        consentNtc.style.display = 'none';
-        chatInput.disabled = false;
-        sessionStorage.setItem('consented', 'true')
-    }
-
-    consentBtn.addEventListener('click', consentHandler)
-
-    if (sessionStorage.getItem('consented') === 'true') {
-        consentNtc.style.display = 'none';
-        chatInput.disabled = false;
-    }
-
-
-    function renderMessage(role, content) {
-        const wrapper = document.createElement('div');
-        wrapper.className = role === 'user' ? 'msg-wrapper-user' : 'msg-wrapper-bear';
-
-        const label = document.createElement('div');
-        label.className = 'msg-label';
-        label.textContent = role === 'user' ? 'You' : 'Bear';
-
-        const div = document.createElement('div');
-        div.textContent = content;
-        div.className = role === 'user' ? 'msg-user' : 'msg-bear';
-        
-        wrapper.appendChild(label);
-        wrapper.appendChild(div);
-        messageHst.appendChild(wrapper);
-    }
-
-    async function sendMessage() {
-        if (chatInput.disabled) return;
-        const content = chatInput.value.trim();
-        if (!content) return;
-        
-        messages.push({role: 'user', content: content});
-        
-        renderMessage('user', content);
-
-        chatInput.value = '';
-
-        chatInput.disabled = true;
-
-        loading.style.display = 'block';
-
-        const response = await fetch(WORKER_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(messages)
-        });
-        const data = await response.json();
-
-        messages.push({role: 'assistant', content: data.reply});
-
-        renderMessage('assistant', data.reply);
-
-        loading.style.display = 'none';
-
-        chatInput.disabled = false;
-    };
-
-    sendBtn.addEventListener('click', sendMessage)
-
-    chatInput.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            sendMessage();
-        }
-    });
-
-
-</script>
 
 </body>
+
 </html>

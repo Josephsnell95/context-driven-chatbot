@@ -2,8 +2,8 @@
 ### josephsnell95.github.io — Embedded Portfolio Assistant
 
 **Author:** Joseph Snell  
-**Version:** 1.0  
-**Status:** Live — CI/CD pipeline complete; Bear Necessities project page published  
+**Version:** 1.1  
+**Status:** Live — CI/CD pipeline improvements; Bear Necessities project page published  
 **Last Updated:** June 2026
 
 ---
@@ -281,8 +281,8 @@ Conversation history is persisted to `sessionStorage` as a JSON array. Each new 
 ### Phase 6 — Content & Polish (current)
 - [x] Add Bear Necessities project page (`projects/bear_necessities.html`) to Pages site
 - [x] Add Bear Necessities to projects index and homepage featured grid
-- [ ] Test on mobile — widget responsive issues deferred from Phase 3
-- [ ] Worker redeploy automation — currently manual after context PRs merge (see Section 9.3)
+- [x] Test on mobile — widget responsive issues deferred from Phase 3
+- [x] Worker redeploy automation — currently manual after context PRs merge (see Section 9.3)
 - [ ] Widget sync Action — copies `chatbot.html` and `chatbot.js` to Pages repo on release (see Section 9.4)
 
 ---

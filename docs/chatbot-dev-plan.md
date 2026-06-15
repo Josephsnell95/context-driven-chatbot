@@ -2,8 +2,8 @@
 ### josephsnell95.github.io — Embedded Portfolio Assistant
 
 **Author:** Joseph Snell  
-**Version:** 0.5 — Active Development  
-**Status:** Parser complete; Worker deployed; Widget complete and embedded  
+**Version:** 0.6 — Active Development  
+**Status:** Parser complete; Worker deployed; Widget complete and embedded; Privacy policy deployed  
 **Last Updated:** June 2026
 
 ---
@@ -166,6 +166,7 @@ context-driven-chatbot/
 ├── bot-context.md                 # Intentional stub — see Section 4
 ├── easter-eggs.md                 # Layer 1: personal details and personality
 ├── supplementary-context.txt      # Layer 2: parser output, auto-updated by CI
+├── privacy-policy.md              # Source of truth for privacy policy content
 ├── .env.example                   # Safe to commit — template for new users
 ├── .env                           # Gitignored — your actual local paths
 ├── .gitignore
@@ -247,9 +248,9 @@ Conversation history is persisted to `sessionStorage` as a JSON array. Each new 
 ### Phase 4 — Embed & Test (current)
 - [x] Embed widget in GitHub Pages via `main.js` injection pattern
 - [x] Widget persists across page navigations
+- [x] Deploy privacy policy page (`privacy_policy.html` at Pages repo root)
+- [x] Add footer link to privacy policy
 - [ ] Test against success criteria (Section 14)
-- [ ] Deploy privacy policy page
-- [ ] Add footer link to privacy policy on Pages site
 
 ### Phase 5 — CI/CD Pipeline
 - [ ] Set up GitHub Action on pages repo: trigger parser on push/merge
@@ -317,8 +318,10 @@ A privacy policy is required. Bear Necessities has a genuinely light data footpr
 - No personal data collected or stored by Joe
 
 **Files:**
-- `privacy-policy.md` → deploy as a page on GitHub Pages site *(not yet deployed)*
-- Consent notice built into `widget/chatbot.html` — session memory only, input disabled until acknowledged
+- `privacy-policy.md` — source of truth in the chatbot repo; keep in sync with deployed page
+- `privacy_policy.html` — deployed at `josephsnell95.github.io/privacy_policy.html` ✅
+- Consent notice built into `widget/chatbot.html` — session memory only, input disabled until acknowledged ✅
+- Footer link to privacy policy on all pages via shared `footer.html` ✅
 
 ---
 

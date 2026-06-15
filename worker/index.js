@@ -1,3 +1,8 @@
+import PERSONA from "../persona.md";
+import EASTER_EGGS from "../easter-eggs.md";
+import SUPPLEMENTARY_CONTEXT from "../supplementary-context.txt";
+import RULES from "../rules.md";
+
 const systemPrompt = `${PERSONA}\n\n${EASTER_EGGS}\n\n${SUPPLEMENTARY_CONTEXT}\n\n${RULES}`;
 
 

@@ -270,7 +270,7 @@ Conversation history is persisted to `sessionStorage` as a JSON array. Each new 
 - [x] `.gitignore` — added `__pycache__/`
 
 ### Phase 5 — CI/CD Pipeline (current)
-- [ ] Set up GitHub Action on pages repo: trigger parser on push/merge
+- [x] Set up GitHub Action on pages repo: trigger parser on push/merge
 - [ ] Configure cross-repo PR: parser output auto-raises PR on chatbot repo
 - [ ] Set up GitHub Action on chatbot repo: validate context on PR
 - [ ] Consider: Action to sync widget files from chatbot repo to pages repo on release
@@ -291,8 +291,15 @@ CI/CD stands for *Continuous Integration / Continuous Deployment*. GitHub provid
 ### 9.2 Validation Gate (chatbot repo PR)
 
 **Trigger:** any pull request opened against the chatbot repo  
-**Action:** runs a validation script against context files  
-**Result:** PR blocked from merging if validation fails
+**File:** `.github/workflows/validate-context.yml`  
+**Script:** `parser/validate_context.py`  
+**Checks:**
+- `supplementary-context.txt` exists and is non-empty
+- `supplementary-context.txt` is under 800,000 characters
+- `persona.md` exists and is non-empty
+- No `LINK` or `[PLACEHOLDER]` strings remain in `persona.md` or `easter-eggs.md`
+
+**Result:** PR blocked from merging if any check fails — green tick if all pass
 
 ### 9.3 Widget Sync (future)
 

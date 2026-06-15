@@ -2,8 +2,8 @@
 ### josephsnell95.github.io — Embedded Portfolio Assistant
 
 **Author:** Joseph Snell  
-**Version:** 1.1  
-**Status:** Live — CI/CD pipeline improvements; Bear Necessities project page published  
+**Version:** 1.2  
+**Status:** Live — all phases complete  
 **Last Updated:** June 2026
 
 ---
@@ -163,7 +163,9 @@ context-driven-chatbot/
 │   └── chatbot.js                 # Widget JavaScript — interaction, session state, Worker communication
 ├── .github/
 │   └── workflows/
-│       └── validate-context.yml   # CI: validation gate on chatbot repo PRs
+│       ├── validate-context.yml   # CI: validation gate on chatbot repo PRs
+│       ├── deploy-worker.yml      # CI: redeploy Worker on merge to main
+│       └── sync-widget.yml        # CI: copy widget files to Pages repo on widget changes
 ├── docs/
 │   └── chatbot-dev-plan.md        # This file
 ├── persona.md                     # Layer 0: Bear Necessities identity and tone
@@ -247,7 +249,7 @@ Conversation history is persisted to `sessionStorage` as a JSON array. Each new 
 - [x] Refactor: split JavaScript into `widget/chatbot.js`
 - [x] Add session state persistence (panel state, message history)
 - [x] Add error handling (try/catch/finally around Worker fetch)
-- [ ] Test on mobile *(deferred — minor responsive issues noted, to be addressed)*
+- [x] Mobile tested — works on iPhone; minor desktop resize edge case noted, not material
 
 ### Phase 4 — Embed & Test ✅
 - [x] Embed widget in GitHub Pages via `main.js` injection pattern
@@ -278,12 +280,14 @@ Conversation history is persisted to `sessionStorage` as a JSON array. Each new 
 - [x] End-to-end pipeline tested — Pages push → parser → automated PR → validation gate → merge
 - [x] Remove legacy `parser-config.example.yml` and `parser-config.yml` files
 
-### Phase 6 — Content & Polish (current)
+### Phase 6 — Content & Polish ✅
 - [x] Add Bear Necessities project page (`projects/bear_necessities.html`) to Pages site
 - [x] Add Bear Necessities to projects index and homepage featured grid
-- [x] Test on mobile — widget responsive issues deferred from Phase 3
-- [x] Worker redeploy automation — currently manual after context PRs merge (see Section 9.3)
-- [ ] Widget sync Action — copies `chatbot.html` and `chatbot.js` to Pages repo on release (see Section 9.4)
+- [x] Mobile tested — widget works on iPhone; desktop resize edge case noted, not material
+- [x] Worker redeploy automation — `deploy-worker.yml` fires on merge to main, runs `wrangler deploy`
+- [x] Widget sync Action — `sync-widget.yml` copies `chatbot.html` and `chatbot.js` to Pages repo on widget changes
+- [x] Screenshots added to Bear Necessities project page
+- [x] Privacy policy link in consent notice corrected to `privacy_policy.html`
 
 ---
 
@@ -312,17 +316,21 @@ CI/CD stands for *Continuous Integration / Continuous Deployment*. GitHub provid
 
 **Result:** PR blocked from merging if any check fails — green tick if all pass
 
-### 9.3 Worker Redeploy (future)
+### 9.3 Worker Redeploy (chatbot repo → Cloudflare)
 
 **Trigger:** merge to `main` on the chatbot repo  
-**Action:** runs `wrangler deploy` using a Cloudflare API token stored as a repo secret  
-**Result:** Worker is redeployed automatically with updated context — removing the current manual redeploy step
+**File:** `.github/workflows/deploy-worker.yml`  
+**What it does:** checks out the repo, installs Node and Wrangler, runs `wrangler deploy` from `worker/`  
+**Uses:** `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets stored in the chatbot repo  
+**Result:** Worker is redeployed automatically on every merge to main — context updates go live without a manual step
 
-### 9.4 Widget Sync (future)
+### 9.4 Widget Sync (chatbot repo → Pages repo)
 
-**Trigger:** merge to `main` on the chatbot repo affecting `widget/`  
-**Action:** copies `chatbot.html` and `chatbot.js` to the Pages repo and raises a PR  
-**Result:** widget updates propagate to the live site without a manual copy step
+**Trigger:** push to `main` on the chatbot repo affecting `widget/**`  
+**File:** `.github/workflows/sync-widget.yml`  
+**What it does:** checks out both repos, copies `widget/chatbot.html` to `assets/html/` and `widget/chatbot.js` to `assets/js/` in the Pages repo, commits and pushes directly to Pages main  
+**Uses:** `CHATBOT_REPO_PAT` secret stored in the chatbot repo — fine-grained PAT scoped to contents on the Pages repo  
+**Result:** widget updates propagate to the live site automatically on merge
 
 ---
 
@@ -377,8 +385,8 @@ A privacy policy is required. Bear Necessities has a genuinely light data footpr
 | Jailbreak / persona reassignment | `RULES` block appended to end of system prompt; confirmed effective in testing |
 | Free tier terms change | Architecture is portable — swapping provider means ~5 lines in the Worker |
 | GDPR non-compliance | Cloudflare Workers AI keeps data within one provider; privacy policy and consent notice in place |
-| Context stale after Pages update | CI/CD pipeline opens automated PR on chatbot repo — Worker redeploy still manual pending Section 9.3 |
-| Widget out of sync with chatbot repo | Manual copy step currently; future CI/CD widget sync Action planned (Section 9.4) |
+| Context stale after Pages update | CI/CD pipeline opens automated PR on chatbot repo; Worker redeploy Action fires on merge |
+| Widget out of sync with chatbot repo | Widget sync Action copies files to Pages repo automatically on widget changes |
 
 ---
 
@@ -398,6 +406,16 @@ All 12 criteria confirmed passing ✅
 10. Rate limit hit → friendly fallback with contact links ✅ *(confirmed during Worker build)*
 11. Personal question → warm easter egg response ✅
 12. First message → consent notice shown, input disabled until acknowledged ✅
+
+---
+
+## 15. Future Considerations
+
+**RAG architecture** — replace the baked-in context string with a vector database. Semantic retrieval at query time rather than loading everything into the prompt. The right approach as the site grows, but requires paid infrastructure and an embedding model. Not needed at current content volume.
+
+**Source-aware responses** — Bear surfaces links to the relevant page on the site alongside answers, so visitors can navigate directly to the write-up rather than just reading a summary.
+
+**Widget sync PR vs direct push** — currently the widget sync Action commits directly to Pages main. If the widget becomes more complex, switching to a PR-based approach (matching the parser trigger pattern) gives an extra review step before changes go live.
 
 ---
 

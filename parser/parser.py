@@ -5,7 +5,6 @@ a clean supplementary context file for use in the chatbot system prompt.
 """
 
 import os
-import yaml
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -26,7 +25,7 @@ def main():
 
     if not PAGES_REPO_PATH:
         raise ValueError(
-            "PAGES_REPO_PATH not set."
+            "PAGES_REPO_PATH not set.\n"
             "Copy .env.example to .env and fill in your path"
         )
     
@@ -55,6 +54,25 @@ def main():
         extracted = parse_file(html_file)
         results.append(extracted)
         print(f" Done.")
+
+    NOTEBOOKS_REPO_PATH = os.getenv("NOTEBOOK_REPO_PATH")
+
+    if NOTEBOOKS_REPO_PATH:
+        notebooks_path = Path(NOTEBOOKS_REPO_PATH)
+        if not notebooks_path.exists():
+            print(f"Warning: NOTEBOOK_REPO_PATH set but path not found: {notebooks_path} — skipping")
+        else:
+            notebook_files = list(notebooks_path.rglob("*.ipynb"))
+            print(f"\nFound {len(notebook_files)} notebook files to parse:")
+            for f in notebook_files:
+                print(f"  {f.relative_to(notebooks_path)}")
+            for notebook_file in sorted(notebook_files):
+                print(f"\nParsing: {notebook_file.name}...")
+                extracted = extract_notebook(notebook_file)
+                results.append(extracted)
+                print(f"  Done.")
+    else:
+        print("\nNOTEBOOK_REPO_PATH not set — skipping notebooks")
 
     # Write output
     output = "\n\n" + ("-"  * 60 + "\n\n").join(results)

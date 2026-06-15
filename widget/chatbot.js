@@ -36,15 +36,15 @@ function closeChat() {
     sessionStorage.setItem('chatOpen', 'false');
 }
 
-closeBtn.addEventListener('click', closeChat)
+closeBtn.addEventListener('click', closeChat);
 
 function consentHandler() {
     consentNtc.style.display = 'none';
     chatInput.disabled = false;
-    sessionStorage.setItem('consented', 'true')
+    sessionStorage.setItem('consented', 'true');
 }
 
-consentBtn.addEventListener('click', consentHandler)
+consentBtn.addEventListener('click', consentHandler);
 
 if (sessionStorage.getItem('consented') === 'true') {
     consentNtc.style.display = 'none';
@@ -66,12 +66,14 @@ function renderMessage(role, content) {
     wrapper.appendChild(label);
     wrapper.appendChild(div);
     messageHst.appendChild(wrapper);
+    messageHst.scrollTop = messageHst.scrollHeight;
 }
 
 const saved = sessionStorage.getItem('chatMessages');
 if (saved) {
     messages = JSON.parse(saved);
     messages.forEach(m => renderMessage(m.role, m.content));
+    messageHst.scrollTop = messageHst.scrollHeight;
 }
 
 async function sendMessage() {
@@ -110,7 +112,7 @@ async function sendMessage() {
     }
 };
 
-sendBtn.addEventListener('click', sendMessage)
+sendBtn.addEventListener('click', sendMessage);
 
 chatInput.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {

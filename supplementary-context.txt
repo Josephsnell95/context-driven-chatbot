@@ -171,23 +171,41 @@ Bear Necessities is a personal portfolio project. It is not a commercial service
 === Bear Necessities · Joseph Snell ===
 [The problem]
 Portfolios are passive. Recruiters are busy.
-Most portfolio sites ask visitors to do the work — navigate the pages, read the write-ups, piece together whether the person is what they're looking for. For a recruiter with ten tabs open, that's friction.
-I wanted to build something that answered questions directly. Not a FAQ, not a contact form — something a visitor could actually talk to. That meant learning how to incorporate AI into a real, constrained environment for the first time. The learning journey was as much the point as the outcome.
+Most portfolio sites ask visitors to do the work — navigate the pages, read the write-ups, piece together
+whether the person is what they're looking for. For a recruiter with ten tabs open, that's friction.
+I wanted to build something that answered questions directly. Not a FAQ, not a contact form — something a
+visitor could actually talk to. That meant learning how to incorporate AI into a real, constrained environment
+for the first time. The learning journey was as much the point as the outcome.
 It's also an homage to my daughter, Bear — whose nickname gave the bot its name.
 
 [What it does]
 A governed context chatbot
-Bear Necessities only knows what I've explicitly told it. Content is extracted from this site's HTML by a Python parser, cleaned into plain text, and baked into a Cloudflare Worker at deploy time. There is no runtime database, no live fetching — the context is a string constant in the Worker, built from what's published here.
-Persona, tone, easter eggs, and hard behavioural rules are defined in plain markdown files. The bot speaks in third person, leads with business impact, and redirects warmly when it can't help. It does not guess, invent, or go off-script.
+Bear Necessities only knows what I've explicitly told it. Content is extracted from this site's HTML by a
+Python parser, cleaned into plain text, and baked into a Cloudflare Worker at deploy time. There is no runtime
+database, no live fetching — the context is a string constant in the Worker, built from what's published here.
+Persona, tone, easter eggs, and hard behavioural rules are defined in plain markdown files. The bot speaks in
+third person, leads with business impact, and redirects warmly when it can't help. It does not guess, invent, or
+go off-script.
 Items: Parser, Worker, Widget, Persona, Fallback chain, Privacy
 
 [Technical walkthrough]
 The decisions that mattered
 The architecture is deliberately simple, but a few decisions were worth thinking through carefully.
-Context baked at deploy time. The bot's knowledge isn't fetched at runtime — it's a string constant inside the Worker, built from the parser output and deployed with the code. This means zero latency on context retrieval and no runtime dependencies. The tradeoff is that updating the bot's knowledge requires redeploying the Worker. A CI/CD pipeline automates this: a push to the Pages repo triggers the parser, which diffs the output and opens a PR on the chatbot repo if anything has changed.
-Rate limits as a cost constraint, not a reliability constraint. Both free API tiers enforce daily limits. The Worker catches rate limit errors and returns a friendly redirect message rather than a broken experience — so the bot degrades gracefully regardless of traffic. No cost is ever incurred beyond the free tier.
-GDPR-conscious architecture. The primary AI path stays entirely within Cloudflare — the message never leaves their infrastructure unless the fallback fires. Combined with no persistent storage and a consent notice before first use, the data footprint is as light as a public-facing chatbot can reasonably be.
-Static site constraint. GitHub Pages serves static files only — no server, no environment variables. The Cloudflare Worker acts as the secure middleman: API keys live in its environment, never in code that reaches the browser.
+Context baked at deploy time. The bot's knowledge isn't fetched at runtime — it's a string
+constant inside the Worker, built from the parser output and deployed with the code. This means zero latency on
+context retrieval and no runtime dependencies. The tradeoff is that updating the bot's knowledge requires
+redeploying the Worker. A CI/CD pipeline automates this: a push to the Pages repo triggers the parser, which
+diffs the output and opens a PR on the chatbot repo if anything has changed.
+Rate limits as a cost constraint, not a reliability constraint. Both free API tiers enforce
+daily limits. The Worker catches rate limit errors and returns a friendly redirect message rather than a broken
+experience — so the bot degrades gracefully regardless of traffic. No cost is ever incurred beyond the free
+tier.
+GDPR-conscious architecture. The primary AI path stays entirely within Cloudflare — the
+message never leaves their infrastructure unless the fallback fires. Combined with no persistent storage and a
+consent notice before first use, the data footprint is as light as a public-facing chatbot can reasonably be.
+Static site constraint. GitHub Pages serves static files only — no server, no environment
+variables. The Cloudflare Worker acts as the secure middleman: API keys live in its environment, never in code
+that reaches the browser.
 
 [Stack]
 Technologies used
@@ -195,7 +213,7 @@ Items: Python, Cloudflare Workers, Llama 3.3 70B, Groq, Vanilla JS, GitHub Actio
 
 [What's next]
 Roadmap
-Items: Governed context chatbot, CI/CD pipeline, Mobile responsive improvements, Source-aware responses, RAG architecture------------------------------------------------------------
+Items: Governed context chatbot, CI/CD pipeline, Mobile responsive improvements, Automated Worker redeploy, RAG architecture------------------------------------------------------------
 
 === Projects · Joseph Snell ===
 What I've built

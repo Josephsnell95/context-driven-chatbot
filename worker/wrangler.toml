@@ -4,9 +4,3 @@ compatibility_date = "2024-01-01"
 
 [ai]
 binding = "AI"
-
-[text_blobs]
-PERSONA = "../persona.md"
-EASTER_EGGS = "../easter-eggs.md"
-SUPPLEMENTARY_CONTEXT = "../supplementary-context.txt"
-RULES = "../rules.md"

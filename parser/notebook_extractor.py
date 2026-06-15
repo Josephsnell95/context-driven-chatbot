@@ -17,9 +17,9 @@ def extract_code_cell(cell: dict) -> str:
     kept = []
     for line in cell["source"]:
         if line.startswith(("import", "from")):
-            kept.append(line)
+            kept.append(line.strip())
         elif "#" in line:
-            kept.append(line.partition("#")[2])
+            kept.append(line.partition("#")[2].strip())
     return "\n".join(kept)
 
 
@@ -42,5 +42,7 @@ def extract_notebook(notebook_path: Path) -> str:
     sections = []
     for cell in notebook["cells"]:
         if cell["cell_type"] in CELL_EXTRACTORS:
-            sections.append(CELL_EXTRACTORS[cell["cell_type"]](cell))
+            text = CELL_EXTRACTORS[cell["cell_type"]](cell)
+            if text.strip():
+                sections.append(text)
     return f"=== {notebook_path.stem} ===\n" + "\n\n".join(sections)

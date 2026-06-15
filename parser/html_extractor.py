@@ -11,9 +11,6 @@ from bs4 import BeautifulSoup
 # Tags to strip entirely before extracting text
 STRIP_TAGS = ["script", "style", "link", "meta", "iframe", "noscript"]
 
-# CSS classes to skip - navigation, footer, boilerplate
-SKIP_CLASSES = {"nav", "footer"}
-
 # The content class that wraps meaning sections on this site
 CONTENT_SECTION_CLASS = "content-section"
 
@@ -30,6 +27,7 @@ def parse_file(html_path: Path) -> str:
     Parse a single HTML file and return extracted text.
     Targets content-section div strips nav, footer, scripts.
     """
+    # utf-8-sig strips the Windows BOM that can corrupt the first character of a file
     with open(html_path, encoding="utf-8-sig", errors="replace") as f:
         soup = BeautifulSoup(f, "html.parser")
     

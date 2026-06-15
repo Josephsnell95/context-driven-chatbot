@@ -563,7 +563,8 @@ export default {
                     reply = "Joe's assistant is having a rest right now — why not reach out to him directly? You can find him on LinkedIn, X, and GitHub.";
                 } else {
                     const groqData = await groqResponse.json();
-                    reply = groqData.choices[0].message.content;
+                    reply = groqData.choices[0]?.message?.content
+                        ?? "Joe's assistant is having a rest right now — why not reach out to him directly? You can find him on LinkedIn, X, and GitHub.";
                 }
             } else {
                 return new Response("Something went wrong", { status: 500 });

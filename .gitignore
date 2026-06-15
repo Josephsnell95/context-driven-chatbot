@@ -4,3 +4,4 @@ venv/
 parser/parser-config.yml
 .wrangler/
 node_modules/
+__pycache__/

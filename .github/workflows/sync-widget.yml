@@ -1,0 +1,38 @@
+name: SYNC Widget
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'widget/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout chatbot repo
+        uses: actions/checkout@v4
+    
+      - name: Checkout pages repo
+        uses: actions/checkout@v4
+        with:
+            repository: Josephsnell95/josephsnell95.github.io
+            token: ${{ secrets.CHATBOT_REPO_PAT}}
+            path: pages-repo
+
+      - name: Copy chatbot.html
+        run: cp widget/chatbot.html pages-repo/assets/html/chatbot.html
+
+      - name: Copy chatbot.js
+        run: cp widget/chatbot.js pages-repo/assets/js/chatbot.js
+    
+      - name: Commit and push
+        working-directory: pages-repo
+        run: |
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git add .
+            git commit -m "Sync widget files from chatbot repo"
+            git push

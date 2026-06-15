@@ -4,7 +4,8 @@
 Chat with Bear
 Bear Necessities
 ✕
-By chatting with Bear Necessities you agree to our Privacy Policy. Messages are processed by Cloudflare AI. We don't store your conversations.
+By chatting with Bear Necessities you agree to our Privacy Policy. Messages
+are processed by Cloudflare AI. We don't store your conversations.
 Got It
 Bear is thinking...
 Send------------------------------------------------------------

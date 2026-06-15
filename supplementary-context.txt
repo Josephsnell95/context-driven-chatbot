@@ -1,10 +1,34 @@
 
 
+=== Bear Necessities ===
+Chat with Bear
+Bear Necessities
+✕
+By chatting with Bear Necessities you agree to our Privacy Policy. Messages are processed by Cloudflare AI. We don't store your conversations.
+Got It
+Bear is thinking...
+Send------------------------------------------------------------
+
+=== Bear Necessities ===
+Chat with Bear
+Bear Necessities
+✕
+By chatting with Bear Necessities you agree to our Privacy Policy. Messages
+are processed by Cloudflare AI. We don't store your conversations.
+Got It
+Bear is thinking...
+Send------------------------------------------------------------
+
 === Joseph Snell · Insights & Analytics ===
 Senior Business Insights Analyst
 Insights, ideas,and everything between.
-I'm a Senior Business Insights Analyst working in indirect procurement — specifically maintenance, repair and operations (MRO). I work across a wide range of stakeholders to turn complex, fragmented data into insights that drive real decisions. My current focus is inventory optimisation.
-This isn't just a portfolio. It's a place where I think out loud — documenting my learning journey, sharing code and ideas, and occasionally writing about whatever's caught my attention. Not all of it will be work-related. I shoot clay pigeons, I read broadly, and I find myself drawn to ideas from well outside my industry. You might see that here too.
+I'm a Senior Business Insights Analyst working in indirect procurement — specifically maintenance, repair and
+operations (MRO). I work across a wide range of stakeholders to turn complex, fragmented data into insights
+that drive real decisions. My current focus is inventory optimisation.
+This isn't just a portfolio. It's a place where I think out loud — documenting my learning journey, sharing
+code and ideas, and occasionally writing about whatever's caught my attention. Not all of it will be
+work-related. I shoot clay pigeons, I read broadly, and I find myself drawn to ideas from well outside my
+industry. You might see that here too.
 Current Role
 Sr. Business Insights Analyst
 Domain
@@ -12,87 +36,189 @@ MRO · Inventory Optimisation
 Core Stack
 Python · SQL · Power BI
 Right Now
-Learning in public · Building this
+Learning in public · Shipping
 What I've built
 Featured Projects
 Python · Inventory · Demo
 MRO Inventory Optimisation Engine
-Safety stock, reorder points, EOQ, ABC/XYZ classification and walk-forward validation across 24 months of goods issue and receiving data. Power BI visualisation layer in progress.
+Safety stock, reorder points, EOQ, ABC/XYZ classification and walk-forward
+validation across 24 months of goods issue and receiving data. Power BI visualisation layer in progress.
 Pythonscikit-learnPower BI
 📄 Full write-up ↗
+⌥ Repo
+↗
+Python · AI · Personal
+Bear Necessities
+A context-driven AI chatbot embedded in this portfolio. Parses site content into a
+governed knowledge base, deployed via Cloudflare Workers with a graceful fallback chain. Named after my
+daughter.
+PythonCloudflare WorkersVanilla
+JS
+📄 Full write-up ↗
 ⌥ Repo ↗
-Coming Soon
-Project in Progress
-Currently being prepared for publication. Check back soon.
 All projects
 View full archive →
 What I work with
 Skills
 🐍
 Python
-My comfort spot. ETL development across fragmented data sources, API ingestion, task automation, and statistical modelling.
+My comfort spot. ETL development across fragmented data sources, API ingestion, task
+automation, and statistical modelling.
 🗄️
 SQL
-Relational databases, querying and extraction for downstream analytics. Complex joins, views, and schema design.
+Relational databases, querying and extraction for downstream analytics. Complex
+joins, views, and schema design.
 📊
 Power BI
-Data modelling with snowflake schemas designed around DAX efficiency. DAX measure development, report visualisation, and custom HTML visuals where native visuals fall short.
+Data modelling with snowflake schemas designed around DAX efficiency. DAX measure
+development, report visualisation, and custom HTML visuals where native visuals fall short.
 ☁️
 Azure DevOps & Git
-Version control for scripts and analytical pipelines. Branch management and automated triggers on PR completion across a multi-system environment.
+Version control for scripts and analytical pipelines. Branch management and
+automated triggers on PR completion across a multi-system environment.
 Currently exploring
 On the Horizon
 Deepening
 🤖
 Machine Learning
-A natural extension of existing statistical modelling — demand forecasting, anomaly detection, and ML applications in inventory optimisation.
+A natural extension of existing statistical modelling — demand forecasting, anomaly
+detection, and ML applications in inventory optimisation.
 📦
 Application Packaging & Django
-Building on existing Python and PySide6 experience — packaging analytical tools and exploring web application development with Django.
+Building on existing Python and PySide6 experience — packaging analytical tools and
+exploring web application development with Django.
 Expanding
 ☁️
 Cloud Platforms
-Moving beyond on-premise infrastructure — exploring Azure and cloud-native data tooling as a next step.
+Moving beyond on-premise infrastructure — exploring Azure and cloud-native data
+tooling as a next step.
 🗃️
 Non-Relational Databases
-Expanding beyond relational databases into document and columnar stores — broadening how data is structured and queried.
+Expanding beyond relational databases into document and columnar stores — broadening
+how data is structured and queried.
 How I got here
 Learning Journey
 Start
 Excel & the Limits of What Was Given
-Began with curated tables — using Excel to analyse vendor query trends, progressing from VLOOKUPs through to XLOOKUPs and Power Query. Hit a ceiling when the data I needed simply wasn't in what I was handed. That's when SQL entered the picture.
+Began with curated tables — using Excel to analyse vendor query trends,
+progressing from VLOOKUPs through to XLOOKUPs and Power Query. Hit a ceiling when the data I needed simply
+wasn't in what I was handed. That's when SQL entered the picture.
 SQL
 Learning the Data Structure
-Started with simple SELECT statements to pull what Excel couldn't reach. Quickly led to joins, composite keys, and time spent understanding entity relationship diagrams. Exposure to stored procedures and views followed — building out the reporting layer from the database up.
+Started with simple SELECT statements to pull what Excel couldn't reach. Quickly
+led to joins, composite keys, and time spent understanding entity relationship diagrams. Exposure to
+stored procedures and views followed — building out the reporting layer from the database up.
 Visualisation
 Visualising Data
-Migrated from SSRS to Power BI — a technical and cultural shift. SSRS had bred a habit of emailed tabular reports; Power BI required stakeholder buy-in for self-serve analytics and a move toward visual storytelling. Self-taught DAX, researched schema design, and built the new reporting layer from scratch.
+Migrated from SSRS to Power BI — a technical and cultural shift. SSRS had bred a
+habit of emailed tabular reports; Power BI required stakeholder buy-in for self-serve analytics and a move
+toward visual storytelling. Self-taught DAX, researched schema design, and built the new reporting layer
+from scratch.
 Python
 Python
-Started out of curiosity watching a colleague work through a course. Quickly realised it unlocked insights that SQL alone couldn't reach. It's grown from there into the core of how I work with data.
+Started out of curiosity watching a colleague work through a course. Quickly
+realised it unlocked insights that SQL alone couldn't reach. It's grown from there into the core of how I
+work with data.
 Now
 Building in Public
-Documenting projects, methodology, and learning here. The goal is to sharpen thinking, build a visible track record, and contribute back to the analytics community.
+Documenting projects, methodology, and learning here. The goal is to sharpen
+thinking, build a visible track record, and contribute back to the analytics community.
 Get in touch
 Let's talk.
-Happy to connect about data, MRO, Python, or anything analytics-adjacent. Always open to a good conversation.
+Happy to connect about data, MRO, Python, or anything analytics-adjacent. Always open to a good
+conversation.
 github.com/Josephsnell95 ↗
 linkedin.com/in/joseph-snell-a197828b ↗
 x.com/JosephSamuel95 ↗------------------------------------------------------------
 
+=== Privacy Policy · Joseph Snell ===
+Who is responsible for this chatbot?
+Bear Necessities is a personal project built and operated by Joe Snell. It is not a commercial product and is not operated by any company.
+To contact Joe directly, use the links in the footer of his portfolio site.
+
+What does Bear Necessities do with my messages?
+When you type a message into the chat widget, the following happens:
+That's it. The conversation goes in, a response comes out.
+
+Is my data stored?
+By Joe: No. Joe does not operate any database, logging system, or analytics tool connected to the chatbot. No conversation data is stored, reviewed, or retained by Joe.
+By Cloudflare: Cloudflare processes requests through its Workers platform and may retain request metadata (such as IP address and timestamp) for security and operational purposes. See cloudflare.com/privacypolicy for the definitive position.
+By the AI providers: Messages are processed by third-party AI inference providers to generate responses. Joe takes reasonable steps to use providers with responsible data handling practices and will update this policy if providers change.
+
+Is my conversation used to train AI models?
+Joe selects AI providers specifically to minimise data retention and avoid training use. This policy will be updated if that changes. No third-party AI provider can currently guarantee zero data handling — refer to the linked privacy policies below for the definitive position.
+If you are concerned about data privacy, avoid sharing personal, sensitive, or confidential information in the chat. Bear Necessities is designed to answer questions about Joe's professional work — there is no need to share personal details to use it.
+
+What about cookies?
+The Bear Necessities chat widget does not set any cookies. The consent acknowledgement is stored only in your browser's session memory and disappears when you close the tab. Nothing is written to your device's persistent storage.
+
+What data does the chatbot actually need?
+Only the text you type. Bear Necessities does not request, access, or process:
+
+Third-party services
+Bear Necessities relies on the following third-party services to operate:
+Joe is not responsible for the data practices of these third parties. Their privacy policies govern how they handle data passed through their services.
+
+Your rights (UK GDPR)
+Under UK GDPR, you have rights including the right to access, correct, and request deletion of personal data held about you. Given that Joe does not store any conversation data, there is no personal data held by Joe to action.
+For data held by third-party providers, you would need to contact those providers directly using their own data request processes.
+If you have a privacy concern about this chatbot specifically, contact Joe directly via his portfolio site.
+
+Changes to this policy
+If the chatbot's architecture changes in a way that affects data handling, this policy will be updated and the "Last updated" date at the top will change.
+Bear Necessities is a personal portfolio project. It is not a commercial service and does not generate revenue. This policy is provided in good faith to be transparent about how the chatbot works.------------------------------------------------------------
+
+=== Bear Necessities · Joseph Snell ===
+[The problem]
+Portfolios are passive. Recruiters are busy.
+Most portfolio sites ask visitors to do the work — navigate the pages, read the write-ups, piece together whether the person is what they're looking for. For a recruiter with ten tabs open, that's friction.
+I wanted to build something that answered questions directly. Not a FAQ, not a contact form — something a visitor could actually talk to. That meant learning how to incorporate AI into a real, constrained environment for the first time. The learning journey was as much the point as the outcome.
+It's also an homage to my daughter, Bear — whose nickname gave the bot its name.
+
+[What it does]
+A governed context chatbot
+Bear Necessities only knows what I've explicitly told it. Content is extracted from this site's HTML by a Python parser, cleaned into plain text, and baked into a Cloudflare Worker at deploy time. There is no runtime database, no live fetching — the context is a string constant in the Worker, built from what's published here.
+Persona, tone, easter eggs, and hard behavioural rules are defined in plain markdown files. The bot speaks in third person, leads with business impact, and redirects warmly when it can't help. It does not guess, invent, or go off-script.
+Items: Parser, Worker, Widget, Persona, Fallback chain, Privacy
+
+[Technical walkthrough]
+The decisions that mattered
+The architecture is deliberately simple, but a few decisions were worth thinking through carefully.
+Context baked at deploy time. The bot's knowledge isn't fetched at runtime — it's a string constant inside the Worker, built from the parser output and deployed with the code. This means zero latency on context retrieval and no runtime dependencies. The tradeoff is that updating the bot's knowledge requires redeploying the Worker. A CI/CD pipeline automates this: a push to the Pages repo triggers the parser, which diffs the output and opens a PR on the chatbot repo if anything has changed.
+Rate limits as a cost constraint, not a reliability constraint. Both free API tiers enforce daily limits. The Worker catches rate limit errors and returns a friendly redirect message rather than a broken experience — so the bot degrades gracefully regardless of traffic. No cost is ever incurred beyond the free tier.
+GDPR-conscious architecture. The primary AI path stays entirely within Cloudflare — the message never leaves their infrastructure unless the fallback fires. Combined with no persistent storage and a consent notice before first use, the data footprint is as light as a public-facing chatbot can reasonably be.
+Static site constraint. GitHub Pages serves static files only — no server, no environment variables. The Cloudflare Worker acts as the secure middleman: API keys live in its environment, never in code that reaches the browser.
+
+[Stack]
+Technologies used
+Items: Python, Cloudflare Workers, Llama 3.3 70B, Groq, Vanilla JS, GitHub Actions
+
+[What's next]
+Roadmap
+Items: Governed context chatbot, CI/CD pipeline, Mobile responsive improvements, Source-aware responses, RAG architecture------------------------------------------------------------
+
 === Projects · Joseph Snell ===
 What I've built
 Projects
-A full record of projects — analytical tools, data pipelines, and anything else worth documenting. Work ranges from production-grade to experimental.
+A full record of projects — analytical tools, data pipelines, and anything else worth
+documenting. Work ranges from production-grade to experimental.
 Python · Inventory · Demo
 MRO Inventory Optimisation Engine
-Safety stock, reorder points, EOQ, ABC/XYZ classification and walk-forward validation across 24 months of goods issue and receiving data. Power BI visualisation layer in progress.
+Safety stock, reorder points, EOQ, ABC/XYZ classification and walk-forward
+validation across 24 months of goods issue and receiving data. Power BI visualisation layer in progress.
 Pythonscikit-learnPower BI
 📄 Full write-up ↗
+⌥ Repo
+↗
+Python · AI · Personal
+Bear Necessities
+A context-driven AI chatbot embedded in this portfolio. Parses site content into a
+governed knowledge base, deployed via Cloudflare Workers with a graceful fallback chain. Named after my
+daughter.
+PythonCloudflare WorkersVanilla
+JS
+📄 Full write-up ↗
 ⌥ Repo ↗
-Coming Soon
-Project in Progress
-Currently being prepared for publication. Check back soon.
 Coming Soon
 Project in Progress
 Currently being prepared for publication. Check back soon.------------------------------------------------------------

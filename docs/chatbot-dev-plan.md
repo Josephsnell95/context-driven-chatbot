@@ -2,8 +2,8 @@
 ### josephsnell95.github.io — Embedded Portfolio Assistant
 
 **Author:** Joseph Snell  
-**Version:** 0.8 — Active Development  
-**Status:** Parser complete; Worker deployed; Widget complete and embedded; Privacy policy deployed; Pre-CI/CD cleanup complete  
+**Version:** 1.0  
+**Status:** Live — CI/CD pipeline complete; Bear Necessities project page published  
 **Last Updated:** June 2026
 
 ---
@@ -98,7 +98,7 @@ The visitor still has a path to contact Joe, the experience feels intentional ra
 
 `bot-context.md` remains in the repo as a placeholder for future use (e.g. a RAG implementation, or content that genuinely cannot live on the site). Do not populate it without updating this plan.
 
-The maintenance habit is simple: **when you publish new content on your Pages site, run the parser to update `supplementary-context.txt` and redeploy the Worker.**
+The maintenance habit is simple: **when you publish new content on your Pages site, push to main — the CI/CD pipeline handles the rest.**
 
 ---
 
@@ -153,6 +153,7 @@ context-driven-chatbot/
 │   ├── parser.py                  # Orchestrator — reads HTML and notebooks, writes supplementary-context.txt
 │   ├── html_extractor.py          # HTML → clean text
 │   ├── notebook_extractor.py      # .ipynb → clean text (optional)
+│   ├── validate_context.py        # CI validation script — runs on every PR to main
 │   └── requirements.txt           # beautifulsoup4, python-dotenv
 ├── worker/
 │   ├── index.js                   # Cloudflare Worker: Workers AI → Groq → graceful fail
@@ -162,8 +163,7 @@ context-driven-chatbot/
 │   └── chatbot.js                 # Widget JavaScript — interaction, session state, Worker communication
 ├── .github/
 │   └── workflows/
-│       ├── validate-context.yml   # CI: validation gate on chatbot repo PRs
-│       └── trigger-parser.yml     # CI: parser trigger from pages repo pushes
+│       └── validate-context.yml   # CI: validation gate on chatbot repo PRs
 ├── docs/
 │   └── chatbot-dev-plan.md        # This file
 ├── persona.md                     # Layer 0: Bear Necessities identity and tone
@@ -177,9 +177,11 @@ context-driven-chatbot/
 └── README.md                      # Setup guide for anyone cloning the tool
 ```
 
+Note: `trigger-parser.yml` lives in the Pages repo (`.github/workflows/`), not the chatbot repo.
+
 ### 7.2 The HTML Parser (parser/parser.py + parser/html_extractor.py)
 
-`parser.py` is a thin orchestrator. It reads GitHub Pages HTML files via `html_extractor.py`, and optionally Jupyter notebooks via `notebook_extractor.py` if `NOTEBOOK_REPO_PATH` is set in `.env`. Output is written to `supplementary-context.txt`. HTML extraction logic lives in `html_extractor.py`; notebook extraction in `notebook_extractor.py`. If `NOTEBOOK_REPO_PATH` is not set, notebooks are silently skipped.
+`parser.py` is a thin orchestrator. It reads GitHub Pages HTML files via `html_extractor.py`, and optionally Jupyter notebooks via `notebook_extractor.py` if `NOTEBOOK_REPO_PATH` is set in `.env`. Output is written to `supplementary-context.txt`. If `NOTEBOOK_REPO_PATH` is not set, notebooks are silently skipped.
 
 **Status: Complete ✅**
 
@@ -218,8 +220,6 @@ The widget is split into two files:
 ### 7.5 Conversation State
 
 Conversation history is persisted to `sessionStorage` as a JSON array. Each new message is appended to the array and saved immediately. On page load, the saved array is restored and all messages are re-rendered into the history panel. When the tab closes, `sessionStorage` is cleared — no database needed, no persistent storage.
-
-**Future consideration:** a CI/CD Action on the pages repo could automatically pull the latest `chatbot.html` and `chatbot.js` from the chatbot repo whenever the widget changes, removing the current manual copy step. This follows the same cross-repo pattern as the parser trigger (Section 9.1).
 
 ---
 
@@ -269,12 +269,21 @@ Conversation history is persisted to `sessionStorage` as a JSON array. Each new 
 - [x] `README.md` — written from scratch; covers architecture, setup, rate limits, privacy, repo structure
 - [x] `.gitignore` — added `__pycache__/`
 
-### Phase 5 — CI/CD Pipeline (current)
-- [x] Set up GitHub Action on pages repo: trigger parser on push/merge
-- [ ] Configure cross-repo PR: parser output auto-raises PR on chatbot repo
-- [ ] Set up GitHub Action on chatbot repo: validate context on PR
-- [ ] Consider: Action to sync widget files from chatbot repo to pages repo on release
-- [ ] Test full end-to-end pipeline
+### Phase 5 — CI/CD Pipeline ✅
+- [x] Build `parser/validate_context.py` — validation script with four checks
+- [x] Add `.github/workflows/validate-context.yml` — runs on every PR to main, blocks merge on failure
+- [x] Replace `LINK` placeholders in `persona.md` and `easter-eggs.md` with real contact URLs
+- [x] Add `.github/workflows/trigger-parser.yml` to Pages repo — fires on push to main
+- [x] Cross-repo PR confirmed working — parser runs, diffs output, opens PR on chatbot repo if changed
+- [x] End-to-end pipeline tested — Pages push → parser → automated PR → validation gate → merge
+- [x] Remove legacy `parser-config.example.yml` and `parser-config.yml` files
+
+### Phase 6 — Content & Polish (current)
+- [x] Add Bear Necessities project page (`projects/bear_necessities.html`) to Pages site
+- [x] Add Bear Necessities to projects index and homepage featured grid
+- [ ] Test on mobile — widget responsive issues deferred from Phase 3
+- [ ] Worker redeploy automation — currently manual after context PRs merge (see Section 9.3)
+- [ ] Widget sync Action — copies `chatbot.html` and `chatbot.js` to Pages repo on release (see Section 9.4)
 
 ---
 
@@ -284,9 +293,11 @@ CI/CD stands for *Continuous Integration / Continuous Deployment*. GitHub provid
 
 ### 9.1 Parser Trigger (pages repo → chatbot repo)
 
-**Trigger:** a push or merge to your GitHub Pages repo  
-**Action:** runs `parser.py`, diffs output against current `supplementary-context.txt`, opens a PR on the chatbot repo if changed  
-**Result:** you review and merge — automation does the legwork
+**Trigger:** push or merge to `main` on the Pages repo  
+**File:** `.github/workflows/trigger-parser.yml` (lives in the Pages repo)  
+**What it does:** checks out both repos, runs `parser.py` with `PAGES_REPO_PATH` set to the runner workspace, diffs output against current `supplementary-context.txt`, opens a PR on the chatbot repo if changed  
+**Uses:** `CHATBOT_REPO_PAT` secret stored in the Pages repo — fine-grained PAT scoped to contents and pull requests on the chatbot repo  
+**Result:** automated PR appears on chatbot repo; validation gate runs automatically on that PR
 
 ### 9.2 Validation Gate (chatbot repo PR)
 
@@ -301,10 +312,16 @@ CI/CD stands for *Continuous Integration / Continuous Deployment*. GitHub provid
 
 **Result:** PR blocked from merging if any check fails — green tick if all pass
 
-### 9.3 Widget Sync (future)
+### 9.3 Worker Redeploy (future)
 
-**Trigger:** a release or merge to main on the chatbot repo affecting `widget/`  
-**Action:** copies `chatbot.html` and `chatbot.js` to the pages repo and raises a PR  
+**Trigger:** merge to `main` on the chatbot repo  
+**Action:** runs `wrangler deploy` using a Cloudflare API token stored as a repo secret  
+**Result:** Worker is redeployed automatically with updated context — removing the current manual redeploy step
+
+### 9.4 Widget Sync (future)
+
+**Trigger:** merge to `main` on the chatbot repo affecting `widget/`  
+**Action:** copies `chatbot.html` and `chatbot.js` to the Pages repo and raises a PR  
 **Result:** widget updates propagate to the live site without a manual copy step
 
 ---
@@ -360,7 +377,8 @@ A privacy policy is required. Bear Necessities has a genuinely light data footpr
 | Jailbreak / persona reassignment | `RULES` block appended to end of system prompt; confirmed effective in testing |
 | Free tier terms change | Architecture is portable — swapping provider means ~5 lines in the Worker |
 | GDPR non-compliance | Cloudflare Workers AI keeps data within one provider; privacy policy and consent notice in place |
-| Widget out of sync with chatbot repo | Manual copy step currently; future CI/CD widget sync Action planned (Section 9.3) |
+| Context stale after Pages update | CI/CD pipeline opens automated PR on chatbot repo — Worker redeploy still manual pending Section 9.3 |
+| Widget out of sync with chatbot repo | Manual copy step currently; future CI/CD widget sync Action planned (Section 9.4) |
 
 ---
 

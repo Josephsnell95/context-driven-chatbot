@@ -5,6 +5,17 @@ import RULES from "../rules.md";
 
 const systemPrompt = `${PERSONA}\n\n${EASTER_EGGS}\n\n${SUPPLEMENTARY_CONTEXT}\n\n${RULES}`;
 
+const injectionPatterns = [
+    /forget (everything|your instructions|what you('ve| have) been told)/i,
+    /ignore (your|all|previous) instructions/i,
+    /you are now/i,
+    /pretend you('re| are)/i,
+    /act as (a |an )?(?!bear)/i,
+    /override/i,
+    /disregard/i,
+];
+
+const JAILBREAK_REPLY = "Nice try — I'm a one-bear operation and my brief is firmly Joe-shaped. If you've got a genuine question about his work, I'm all yours.";
 
 export default {
     async fetch(request, env) {
@@ -17,19 +28,33 @@ export default {
                 }
             });
         }
+
         let messages;
         try {
             messages = await request.json();
         } catch {
             return new Response("Invalid request", { status: 400 });
         }
+
+        const lastMessage = messages[messages.length - 1]?.content ?? '';
+        const isInjection = injectionPatterns.some(pattern => pattern.test(lastMessage));
+
+        if (isInjection) {
+            return new Response(JSON.stringify({ reply: JAILBREAK_REPLY }), {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+        }
+
         let reply;
         let response;
         try {
             response = await env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", {
                 messages: [
-                { role: "system", content: systemPrompt },
-                ...messages
+                    { role: "system", content: systemPrompt },
+                    ...messages
                 ]
             });
             reply = response.response;
@@ -57,6 +82,7 @@ export default {
                 return new Response("Something went wrong", { status: 500 });
             }
         }
+
         return new Response(JSON.stringify({ reply: reply }), {
             headers: {
                 "Content-Type": "application/json",

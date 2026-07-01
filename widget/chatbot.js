@@ -1,6 +1,6 @@
 const WORKER_URL = 'https://bear-necessities-worker.josephsnell.workers.dev';
 let messages = [];
-
+ 
 
 const chatToggle = document.getElementById('chat-toggle');
 const closeBtn = document.getElementById('close-btn');

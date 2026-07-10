@@ -238,9 +238,15 @@ PythonCloudflare WorkersVanilla
 JS
 📄 Full write-up ↗
 ⌥ Repo ↗
-Coming Soon
-Project in Progress
-Currently being prepared for publication. Check back soon.------------------------------------------------------------
+Python · AI · Automation
+Weekly Reflect
+Turns a five-minute Friday reflection into ready-to-publish LinkedIn and
+Twitter/X posts — drafted by Claude, approved by a tap, and published on a schedule via GitHub
+Actions.
+FastAPIClaude APIGitHub
+Actions
+📄 Full write-up ↗
+⌥ Repo ↗------------------------------------------------------------
 
 === Inventory Optimisation · Joseph Snell ===
 [The problem]
@@ -269,4 +275,51 @@ Items: Python, pandas, scikit-learn, matplotlib, Power BI
 
 [What's next]
 Roadmap
-Items: Core statistical models, Power BI visualisation layer, nbviewer notebook embeds, Criticality weighting
+Items: Core statistical models, Power BI visualisation layer, nbviewer notebook embeds, Criticality weighting------------------------------------------------------------
+
+=== Weekly Reflect · Joseph Snell ===
+[The problem]
+Consistency is the hard part
+Posting regularly on LinkedIn and Twitter/X is easy to plan and hard to sustain. The blocker is rarely
+having something worth saying — it's the friction of sitting down each week to turn that into a written
+post, on two platforms, with two different tones and length limits.
+Weekly Reflect removes the writing step without removing the judgement. I still decide what happened
+that week and whether a post goes out — the tool just gets me from "here's what I worked on" to a
+publish-ready draft, and out of my inbox in a couple of taps.
+
+[What it does]
+A five-step weekly loop
+The whole cycle runs on a schedule, end to end: a GitHub Action emails a one-time reflection form every
+Friday. Filling it in — wins, challenges, learning, freeform notes — and submitting sends the reflection
+to Claude, which drafts a LinkedIn post and a Twitter/X post and emails both back with Approve/Reject
+links. Approving a post schedules it for the next platform-appropriate day; a second GitHub Action
+publishes anything approved when its slot comes around.
+Items: Prompt email, Claude drafting, Approval workflow, Scheduled publishing, Durable state, Cost aware
+
+[Technical walkthrough]
+The decisions that mattered
+The pipeline is a small FastAPI app with no persistent worker process — every step is triggered
+externally, which shaped most of the design decisions.
+Approval as a hard gate. Claude drafts, but nothing goes out without a human clicking
+Approve. That single design choice removes most of the risk of an automated posting pipeline — a bad
+draft just gets rejected, it never reaches an audience.
+GitHub as the durability layer. Render's free tier doesn't guarantee a persistent disk,
+so posts.json is treated as a cache in front of GitHub's Contents API. Writes retry up to
+three times on a 409, since a stale SHA is expected — it happens on concurrent writes or GitHub's
+read-after-write lag — rather than treated as a hard failure.
+Two very different auth models, in one module. LinkedIn's API takes a straightforward
+bearer token. Twitter/X's v2 API still requires OAuth 1.0a — nonce, timestamp, HMAC-SHA1 signature over a
+sorted parameter string. Both live behind the same publishers.py interface so the rest of
+the app doesn't need to know the difference.
+Cron-secret gated endpoints, not a scheduler in the app. There's no in-process job
+scheduler — /send-prompt, /publish, and /publish-now are plain
+HTTP endpoints, protected by a shared CRON_SECRET, that GitHub Actions calls on a cron
+schedule. That keeps the app itself stateless and the scheduling logic out of the runtime entirely.
+
+[Stack]
+Technologies used
+Items: FastAPI, Claude API, Resend, GitHub Contents API, LinkedIn & Twitter/X APIs, Render, GitHub Actions
+
+[What's next]
+Roadmap
+Items: End-to-end weekly pipeline, GitHub-backed durability, Security hardening before going public, Publish failure visibility, Additional platforms
